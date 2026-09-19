@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bilibili 视频信息抓取与播放</title>
+  <title>B站视频下载器</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,9 +15,10 @@
       id="videoUrl"
       placeholder="请输入Bilibili视频链接"
     />
-    <button onclick="fetchVideoInfo()">获取信息</button>
-    <button onclick="playVideo()">播放视频</button>
-    <button onclick="downloadVideo()">下载视频</button>
+    <select id="pageSelect" style="display: none" onchange="selectPage()"></select>
+    <button id="btnInfo" onclick="fetchVideoInfo()">获取信息</button>
+    <button id="btnPlay" onclick="playVideo()">播放视频</button>
+    <button id="btnDownload" onclick="downloadVideo()">下载视频</button>
   </div>
 
   <div id="result" class="card" style="display: none;">
