@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bilibili 视频信息抓取与播放</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Bilibili 视频信息抓取与播放</h1>
+
+  <div class="form">
+    <input
+      type="text"
+      id="videoUrl"
+      placeholder="请输入Bilibili视频链接"
+    />
+    <button onclick="fetchVideoInfo()">获取信息</button>
+    <button onclick="playVideo()">播放视频</button>
+    <button onclick="downloadVideo()">下载视频</button>
+  </div>
+
+  <div id="result" class="card" style="display: none;">
+    <h2 id="title"></h2>
+    <p>UP主：<span id="owner"></span></p>
+    <p>播放量：<span id="views"></span> 👍 <span id="likes"></span></p>
+    <a id="videoLink" href="#" target="_blank" rel="noopener noreferrer">B站原页面</a>
+    <br /><br />
+    <img id="pic" src="" alt="封面图" />
+    <video id="player" controls></video>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
