@@ -82,6 +82,22 @@ export function clearFinished() {
 }
 
 // ---------- 渲染 ----------
+// 队列面板显隐 + 实测高度写入 --queue-space，保证悬浮面板永不遮挡页面内容
+let queueObserver = null;
+function syncQueuePanel() {
+  const panel = $('queuePanel');
+  const empty = items.length === 0;
+  panel.classList.toggle('empty', empty);
+  document.documentElement.style.setProperty('--queue-space', empty ? '0px' : panel.offsetHeight + 20 + 'px');
+  if (!empty && !queueObserver) {
+    // 折叠/展开/任务增删导致面板尺寸变化时自动更新占位
+    queueObserver = new ResizeObserver(() => {
+      document.documentElement.style.setProperty('--queue-space', items.length ? panel.offsetHeight + 20 + 'px' : '0px');
+    });
+    queueObserver.observe(panel);
+  }
+}
+
 function render() {
   const list = $('queueList');
   const waiting = items.filter(i => i.status === '等待中').length;
@@ -103,7 +119,11 @@ function render() {
         ${it.status === '失败' ? `<button class="q-retry" data-id="${it.id}">重试</button>` : ''}
       </div>`;
   }).join('');
+  syncQueuePanel();
 }
+
+// 初始同步：页面刚打开、还没有任何任务时隐藏面板
+syncQueuePanel();
 
 // ---------- 底层下载 ----------
 function proxyUrl(url, token, dirMode) {

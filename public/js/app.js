@@ -121,7 +121,9 @@ async function fetchInfo() {
 
   const btn = $('btnInfo');
   btn.disabled = true;
-  btn.textContent = '解析中...';
+  btn.classList.add('loading');
+  $('btnInfoText').textContent = '解析中...';
+  $('emptyState').classList.add('hidden');
   $('infoCard').classList.remove('hidden');
   $('infoSkeleton').classList.remove('hidden');
   $('infoBody').classList.add('hidden');
@@ -154,7 +156,8 @@ async function fetchInfo() {
   } finally {
     fetching = false;
     btn.disabled = false;
-    btn.textContent = '解析';
+    btn.classList.remove('loading');
+    $('btnInfoText').textContent = '解析';
   }
 }
 

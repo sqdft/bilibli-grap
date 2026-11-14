@@ -9,11 +9,20 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><span class="logo">▶</span> B站视频下载器</div>
+    <div class="brand"><span class="logo"><svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span> B站视频下载器</div>
     <div class="top-actions">
-      <button id="clipToggle" class="chip" title="切回本窗口时，自动填入剪贴板中的B站链接并解析">📎 自动粘贴</button>
-      <button id="historyBtn" class="chip" title="最近解析过的视频">🕘 历史</button>
-      <button id="themeBtn" class="chip" title="切换深色/浅色/跟随系统">🌗 主题</button>
+      <button id="clipToggle" class="chip" title="切回本窗口时，自动填入剪贴板中的B站链接并解析">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm-5 16a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3-10H6V5h8v2z"/><path d="M22 5v14a2 2 0 0 1-2 2h-2V3h2a2 2 0 0 1 2 2z" opacity="0.5"/></svg>
+        自动粘贴
+      </button>
+      <button id="historyBtn" class="chip" title="最近解析过的视频" aria-haspopup="true">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.95 8.95 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8h-1.5z"/></svg>
+        历史
+      </button>
+      <button id="themeBtn" class="chip" title="切换深色/浅色/跟随系统">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 1 0 0-2H2a1 1 0 1 0 0 2zm18 0h2a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2zM11 2v2a1 1 0 1 0 2 0V2a1 1 0 1 0-2 0zm0 18v2a1 1 0 1 0 2 0v-2a1 1 0 1 0-2 0zM5.99 4.58a1 1 0 0 0-1.41 0 1 1 0 0 0 0 1.41l1.06 1.06a1 1 0 0 0 1.41-0 1 1 0 0 0 0-1.41L5.99 4.58zm12.37 12.37a1 1 0 0 0-1.41 0 1 1 0 0 0 0 1.41l1.06 1.06a1 1 0 0 0 1.41-0 1 1 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a1 1 0 0 0 0-1.41 1 1 0 0 0-1.41 0l-1.06 1.06a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l1.06-1.06zM7.05 17.36a1 1 0 0 0 0-1.41 1 1 0 0 0-1.41 0l-1.06 1.06a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l1.06-1.06z"/></svg>
+        主题
+      </button>
     </div>
   </header>
 
@@ -22,11 +31,28 @@
   <main class="wrap">
     <!-- 搜索区 -->
     <section class="card search">
-      <input id="videoUrl" type="text" placeholder="粘贴 B站 视频链接（支持 BV / av / b23.tv 短链），回车解析" />
+      <input id="videoUrl" type="text" placeholder="粘贴 B站 视频链接（支持 BV / av / b23.tv 短链），回车解析" aria-label="B站视频链接" />
       <button id="btnPaste" class="btn ghost" title="读取剪贴板中的链接">粘贴</button>
-      <button id="btnInfo" class="btn primary">解析</button>
+      <button id="btnInfo" class="btn primary" aria-label="解析视频信息">
+        <span id="btnInfoText">解析</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+      </button>
     </section>
     <div id="inputHint" class="hint hidden"></div>
+
+    <!-- 空状态引导：未解析任何视频时显示，解析成功后由 app.js 隐藏 -->
+    <section id="emptyState" class="card empty-state">
+      <div class="es-icon">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+      </div>
+      <p class="es-title">从这里开始</p>
+      <p class="es-sub">三步下载 B站 视频：粘贴链接 → 解析选画质 → 一键下载</p>
+      <div class="es-steps">
+        <div class="es-step"><b>1</b><span>粘贴视频链接，支持 BV / av / b23.tv 短链</span></div>
+        <div class="es-step"><b>2</b><span>解析后在线试听试看，挑选画质与分P</span></div>
+        <div class="es-step"><b>3</b><span>下载视频 / 音频 / 弹幕 / AI 字幕</span></div>
+      </div>
+    </section>
 
     <!-- 视频信息卡 -->
     <section id="infoCard" class="card hidden">
@@ -45,13 +71,20 @@
           <p class="sub"><span id="owner"></span> · <span id="views"></span> 播放 · <span id="likes"></span> 点赞</p>
           <p class="sub"><a id="videoLink" href="#" target="_blank" rel="noopener noreferrer">B站原页面 ↗</a></p>
           <div class="ctrl-row">
-            <span class="ctrl-item"><label>画质</label><select id="qualitySelect"></select></span>
-            <span class="ctrl-item"><label>分P</label><select id="pageSelect"></select></span>
+            <span class="ctrl-item"><label for="qualitySelect">画质</label><select id="qualitySelect"></select></span>
+            <span class="ctrl-item"><label for="pageSelect">分P</label><select id="pageSelect"></select></span>
           </div>
           <div class="action-row">
-            <button id="btnPlay" class="btn primary">▶ 播放</button>
+            <button id="btnPlay" class="btn secondary" aria-label="在线播放">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span id="btnPlayText">播放</span>
+            </button>
             <div class="dropdown" id="dlDropdown">
-              <button id="btnDownload" class="btn primary">⬇ 下载 ▾</button>
+              <button id="btnDownload" class="btn primary" aria-haspopup="true" aria-label="下载视频">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L12 13.17zM5 19h14v2H5z"/></svg>
+                下载
+                <svg class="icon chevron" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
+              </button>
               <div id="dlMenu" class="menu hidden"></div>
             </div>
             <button id="btnDanmaku" class="btn ghost small" title="下载全部弹幕并转为 ASS 字幕格式">弹幕 .ass</button>
@@ -74,14 +107,14 @@
         <button class="tab" data-tab="space">收藏夹 / 合集 / UP主</button>
       </div>
       <div id="tab-links" class="tab-body">
-        <textarea id="batchInput" rows="4" placeholder="每行一个 B站 视频链接 / BV号 / av号"></textarea>
+        <textarea id="batchInput" rows="4" placeholder="每行一个 B站 视频链接 / BV号 / av号" aria-label="批量链接输入"></textarea>
         <div class="row">
           <button id="btnBatchParse" class="btn primary">解析列表</button>
           <span id="batchStat" class="sub"></span>
         </div>
       </div>
       <div id="tab-space" class="tab-body hidden">
-        <input id="spaceInput" type="text" placeholder="粘贴 收藏夹 / 合集 / 系列 / UP主空间 链接" />
+        <input id="spaceInput" type="text" placeholder="粘贴 收藏夹 / 合集 / 系列 / UP主空间 链接" aria-label="收藏夹合集空间链接" />
         <div class="row">
           <button id="btnSpaceFetch" class="btn primary">获取列表</button>
           <span id="spaceStat" class="sub"></span>
@@ -90,7 +123,10 @@
       <div id="pickList" class="pick-list hidden">
         <div class="pick-head">
           <label class="pick-all"><input type="checkbox" id="pickAll" /> 全选</label>
-          <button id="btnPickDownload" class="btn primary small">⬇ 下载选中</button>
+          <button id="btnPickDownload" class="btn primary small">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L12 13.17zM5 19h14v2H5z"/></svg>
+            下载选中
+          </button>
         </div>
         <div id="pickItems"></div>
       </div>
@@ -103,7 +139,9 @@
       <span id="queueTitle">下载队列</span>
       <span class="queue-tools">
         <button id="queueClear" class="chip small">清空完成</button>
-        <button id="queueToggle">▾</button>
+        <button id="queueToggle" aria-label="折叠或展开队列">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>
+        </button>
       </span>
     </div>
     <div id="queueList" class="queue-list"></div>

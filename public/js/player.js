@@ -59,7 +59,8 @@ export async function play() {
   if (!state.bvid || !state.cid) return;
   const btn = $('btnPlay');
   btn.disabled = true;
-  btn.textContent = '加载中...';
+  btn.classList.add('loading');
+  $('btnPlayText').textContent = '加载中...';
   try {
     const data = await ensurePlayurlsFor(state.bvid, state.cid, state.qn);
     updateQualitySelect(data);
@@ -68,7 +69,8 @@ export async function play() {
     toast(e.message, 'error');
   } finally {
     btn.disabled = false;
-    btn.textContent = '▶ 播放';
+    btn.classList.remove('loading');
+    $('btnPlayText').textContent = '播放';
   }
 }
 
